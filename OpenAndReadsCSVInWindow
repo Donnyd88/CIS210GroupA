@@ -1,0 +1,245 @@
+#all imports needed for code to work
+import tkinter as tk
+from tkinter import ttk
+from tkinter import *
+import pandas as pd
+from PIL import ImageTk, Image
+from tkinter import PhotoImage
+
+#This reads in the roomReport.csv file
+df= pd.read_csv("C:/Users/peter/Downloads/CSV+example.csv")
+
+#Creates the main window
+window = tk.Tk()
+
+#Sets the window size (Length x Height)
+window.geometry("1400x900")
+
+
+# Creating an Intro label next to the button that explains what the program does
+label = tk.Label(window, text="This Program is here to help students find "+ 
+                 "\n what courses at Manchester Community College, NH, are "+
+                 "\n available to register for. By using the dropdown menu to "+
+                 "\n the right, in case you are not sure what the abbreviation "+
+                 "\n means, when you select an option, a brief explanation "+
+                 "\n below the menu appears to explain the abbreviation. "+
+                 "\n After you have found what courses you want to look up, "+
+                 "\n just select the option and then click the button. Once "+
+                 "\n you do that a whole description of all the available "+
+                 "\n classes, what days you have to go in, what time it "+
+                 "\n runs at, building, etc. ")
+label.place(x=0, y=210)
+
+#Creates the text box which will be used to output all the course info
+output_text = tk.Text(window,height=20,width=1200)
+output_text.place(x=0,y=0,height=200,width=1300)
+
+#Function used to detect what option is highlighted at the current moment
+def on_dropdown_select(*args):
+    selected = dropdown_var.get()
+    label.config(text=f"Selected: {selected}")
+    
+    #if else statement used to clarify what the abbreviations mean for the user
+    if selected == 'FIN':
+        label.config(text="Personal Finance Courses")
+            
+    elif selected == 'AUTO':
+        label.config(text="This is Option 2 explanation.")
+           
+    elif selected == 'PSPT':
+        label.config(text="This is Option 3 explanation.")
+    
+        
+    elif selected == 'MATH':
+        label.config(text="Math Courses")
+        
+       
+    elif selected == 'ENGL':
+        label.config(text="English Courses")
+        
+    elif selected == 'ADMT':
+        label.config(text="This is Option 3 explanation.")
+        
+      
+    elif selected == 'HUMA':
+        label.config(text="Humanity Courses")
+        
+       
+    elif selected == 'SOCI':
+            label.config(text="This is Option 2 explanation.")
+            
+        
+    elif selected == 'WELD':
+        label.config(text="Welding Courses")
+        
+       
+    elif selected == 'ARTS':
+        label.config(text="Arts Courses")
+        
+   
+    elif selected == 'NCMI':
+        label.config(text="This is Option 3 explanation.")
+        
+      
+    elif selected == 'ROBO':
+        label.config(text="Robotic Courses")
+        
+        
+    elif selected == 'CIS':
+        label.config(text="Computer Science Courses")
+        
+       
+    elif selected == 'ASL':
+        label.config(text="American Sign Language Courses")
+        
+        
+    elif selected == 'HFIT':
+        label.config(text="Health Fitness Courses")
+          
+    elif selected == 'HSV':
+        label.config(text="This is Option 3 explanation.")
+        
+       
+    elif selected == 'PSYC':
+        label.config(text="Psycology Courses")
+        
+        
+    elif selected == 'ACCT':
+        label.config(text="Accounting Courses")
+        
+        
+    elif selected == 'PHYS':
+       label.config(text="Physic Courses")
+       
+       
+    elif selected == 'FYE':
+       label.config(text="MCC Essential Courses")
+       
+   
+    elif selected == 'HIST':
+      label.config(text="History Courses")
+      
+      
+    elif selected == 'CHEM':
+       label.config(text="Chemestry Courses")
+       
+       
+    elif selected == 'BIOL':
+       label.config(text="Biology Courses")
+       
+       
+    elif selected == 'NURS':
+       label.config(text="Nursing Courses")
+          
+    elif selected == 'HVAC':
+       label.config(text="This is Option 3 explanation.")
+          
+    elif selected == 'NCIE':
+       label.config(text="This is Option 3 explanation.")
+         
+    elif selected == 'ECE':
+       label.config(text="This is Option 3 explanation.")
+         
+    elif selected == 'AHLT':
+       label.config(text="This is Option 3 explanation.")
+       
+      
+    elif selected == 'ANTH':
+       label.config(text="Anthropology Courses")
+       
+       
+    elif selected == 'BUS':
+       label.config(text="Business Courses")
+         
+    elif selected == 'PHIL':
+       label.config(text="This is Option 3 explanation.")
+          
+    elif selected == 'POLS':
+       label.config(text="This is Option 3 explanation.")
+       
+       
+    elif selected == 'ECON':
+       label.config(text="Economy Courses")
+       
+      
+    elif selected == 'MKTG':
+       label.config(text="Marketing Courses")
+       
+       
+    elif selected == 'GDES':
+       label.config(text="Graphical Design Courses")
+         
+    elif selected == 'NCHV':
+       label.config(text="This is Option 3 explanation.")
+       
+       
+    elif selected == 'NCCP':
+       label.config(text="Cyber Security Courses")       
+       
+    else:
+        label.config(text="")
+    
+
+#Function  to obtain specific elements in the roomReport.csv File
+def retrieve_data():
+    selected_element = dropdown.get()
+    selected_row = df[df['SUBJ'] == selected_element]
+    
+    #All the columns to be retrieved
+    selected_columns=['BLDG','RM','CRN','CRSE','SECT','TITLE', 'MON','TUE','WED','THU', 
+                      'FRI', 'BEGIN','END','BEGINDATE','ENDDATE','CRDT_HRS','MAX','ACTL','WL']
+    # Display the rest of the row as desired
+    display_data=selected_row[selected_columns].fillna(" ")
+    
+    output_text.delete('1.0',tk.END)
+    output_text.insert(tk.END, display_data.to_string(index=False))
+    
+    print(display_data)
+
+
+dropdown_var = tk.StringVar()
+label = tk.Label(window, text="Selected: ")
+label.place(x=400,y=280,height=30,width=160)
+
+dropdown_var.trace("w", on_dropdown_select)
+
+#Creating dropdown menu containing all the course subjects
+dropdown = ttk.Combobox(window, values=['FIN','AUTO', 'PSPT', 'MATH', 'ENGL',
+                                        'ADMT','HUMA','SOCI','WELD','ARTS',
+                                        'NCMI','ROBO','CIS','ASL','HFIT',
+                                        'HSV','PSYC','ACCT','PHYS','FYE',
+                                        'HIST','CHEM','BIOL','NURS','HVAC',
+                                        'NCIE','ECE','AHLT','ANTH','BUS',
+                                        'PHIL','POLS','ECON','MKTG','GDES',
+                                        'NCHV','NCCP',], textvariable=dropdown_var)
+
+
+dropdown.place(x=400,y=210,height=30,width=160)
+
+
+#Creating Scrollbar widget
+scrollbar = tk.Scrollbar(window, command=output_text.yview, troughcolor='gray', width=10)
+scrollbar.place(x=1300,y=0,height=200)
+
+#Scrollbar configuration to work with the Text widget
+scrollbar.config(command=output_text.yview)
+output_text.config(yscrollcommand=scrollbar.set)
+
+# Create a button to trigger data retrieval which then prints the course info in the output text box
+button = tk.Button(window, text="Show Available Courses", 
+                   command=retrieve_data)
+button.place(x=400,y=250,height=30,width=160)
+
+
+#exit button to exit the program
+def exit_program():
+    window.destroy()
+quit_button= tk.Button(window, text="Exit", width=10, command=exit_program, bg="red", fg="white", borderwidth=3,relief=tk.RIDGE)
+quit_button.place(x=900, y=300)
+    
+window.mainloop()
+
+#These are for the console to test whether the file has been successfully read
+building_data = df['BLDG']  #Access specific column data, change the text in the [] to the corresponding column to check if it grabs the data correctly
+CRN_data = df['CRN']  #Same as the first one, just had a second one to see if I could test two columns at once
+print(building_data) #Prints the data in the selected column

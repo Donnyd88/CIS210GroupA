@@ -14,8 +14,15 @@ class CourseInfoApp:
         self.root.iconphoto(False, icon)
 
         
-        self.browse_button = tk.Button(root, text="Browse", command=self.open_file_dialog)
-        self.browse_button.place(x=600, y=250, height=30, width=80)
+        self.browse_button = tk.Button(root, text="Select File", command=self.open_file_dialog)
+        self.browse_button.place(x=900, y=250, height=30, width=80)
+        
+        self.search_entry = tk.Entry(root)
+        self.search_entry.place(x=400, y=350, height=30, width=200)
+        self.search_button = tk.Button(root, text="Search", command=self.search_classes)
+        self.search_button.place(x=600, y=350, height=30, width=80)
+
+
 
         # Creating an Intro label next to the button that explains what the program does
         intro_label = tk.Label(root, text="This Program is here to help students find "+ 
@@ -127,6 +134,27 @@ class CourseInfoApp:
         display_data = selected_row[selected_columns].fillna(" ")
         self.output_text.delete('1.0', tk.END)
         self.output_text.insert(tk.END, display_data.to_string(index=False))
+
+    def search_classes(self):
+        if self.df is None:
+            return
+  
+        search_query = self.search_entry.get()
+
+        if not search_query:
+            return
+
+        search_results = self.df[self.df['TITLE'].str.contains(search_query, case=False, na=True)]
+        
+        if not search_results.empty:
+            selected_columns = ['BLDG', 'RM', 'CRN', 'CRSE', 'SECT', 'TITLE', 'MON', 'TUE', 'WED', 'THU',
+                                'FRI', 'BEGIN', 'END', 'BEGINDATE', 'ENDDATE', 'CRDT_HRS', 'MAX', 'ACTL', 'WL']
+            display_data = search_results[selected_columns].fillna(" ")
+            self.output_text.delete('1.0', tk.END)
+            self.output_text.insert(tk.END, display_data.to_string(index=False))
+        else:
+            self.output_text.delete('1.0', tk.END)
+            self.output_text.insert(tk.END, "No matching classes found.")
 
     def exit_program(self):
         self.root.destroy()

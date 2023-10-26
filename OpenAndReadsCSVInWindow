@@ -3,6 +3,7 @@ from tkinter import ttk
 import pandas as pd
 from tkinter import filedialog
 from tkinter import PhotoImage
+from pathlib import Path
 
 class CourseInfoApp:
     def __init__(self, root):
@@ -10,7 +11,9 @@ class CourseInfoApp:
         self.root.geometry("1400x900")
         self.df = None  
         self.root.title("Available Classes at MCC")
-        icon = PhotoImage(file='CIS210GroupA\mccLogo.png')
+        script_dir = Path(__file__).parent  # Get the directory of the current script
+        file_path = script_dir / 'mccLogo.png'
+        icon = PhotoImage(file=file_path)
         self.root.iconphoto(False, icon)
 
         

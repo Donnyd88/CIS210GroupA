@@ -60,7 +60,7 @@ class CourseInfoApp:
 ############################################################################################################
         # Create the text box
         self.output_text = tk.Text(root, height=20, width=1200)
-        self.output_text.place(x=0, y=0, height=200, width=1300)
+        self.output_text.place(x=0, y=0, height=200, width=1350)
 
         # Create the dropdown menu
         self.dropdown_var = tk.StringVar()
@@ -80,7 +80,7 @@ class CourseInfoApp:
 
         # Create a scrollbar widget
         self.scrollbar = tk.Scrollbar(root, command=self.output_text.yview, troughcolor='gray', width=10)
-        self.scrollbar.place(x=1300, y=0, height=200)
+        self.scrollbar.place(x=1350, y=0, height=200)
         self.scrollbar.config(command=self.output_text.yview)
         self.output_text.config(yscrollcommand=self.scrollbar.set)
 

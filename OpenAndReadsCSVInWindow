@@ -98,9 +98,11 @@ class CourseInfoApp:
             if file_path:
                 self.df = pd.read_csv(file_path)
                 self.error_label.config(text="File loaded successfully.")
+                self.error_label.config(fg="green")
         except Exception as e:
             error_message = f"Error loading the file: {str(e)}"
             self.error_label.config(text=error_message)
+            self.error_label.config(fg="red")
 
     def on_dropdown_select(self, *args):
         explanations = {

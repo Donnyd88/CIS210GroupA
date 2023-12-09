@@ -159,6 +159,9 @@ class CourseInfoApp:
         selected_element = self.dropdown.get()
         try:
             selected_row = self.df[self.df['SUBJ'] == selected_element]
+
+            selected_row = selected_row[selected_row['BLDG'].str.startswith(('MMAIN', 'ONLINE', 'MAUTO', 'MTECH', 'OFFCMP'))]
+            
             selected_columns = ['BLDG', 'RM', 'CRN', 'CRSE', 'SECT', 'TITLE', 'MON', 'TUE', 'WED', 'THU',
                                 'FRI', 'BEGIN', 'END', 'BEGINDATE', 'ENDDATE', 'CRDT_HRS', 'MAX', 'ACTL', 'WL']
             display_data = selected_row[selected_columns].fillna(" ")
@@ -209,6 +212,7 @@ class CourseInfoApp:
 
         try:
             search_results = self.df[self.df['TITLE'].str.contains(search_query, case=False, na=True)]
+            search_results = search_results[search_results['BLDG'].str.startswith(('MMAIN', 'ONLINE', 'MAUTO', 'MTECH', 'OFFCMP'))]
             
             if not search_results.empty:
                 selected_columns = ['BLDG', 'RM', 'CRN', 'CRSE', 'SECT', 'TITLE', 'MON', 'TUE', 'WED', 'THU',
